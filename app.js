@@ -95,12 +95,11 @@ function stats(rows) {
 // ===============================
 // RENDER TABLE
 // ===============================
-javascript
 function renderRows(rows) {
   const tbody = document.getElementById("rows");
 
   tbody.innerHTML = rows.map(function (r, i) {
-    return 
+    return `
       <tr>
         <td>${i + 1}</td>
         <td>${esc(r.seat_number)}</td>
@@ -112,7 +111,7 @@ function renderRows(rows) {
         <td>${esc(r.score)}/${esc(r.total_questions)}</td>
         <td>${formatDate(r.submitted_at)}</td>
       </tr>
-    ;
+    `;
   }).join("");
 }
 
@@ -319,4 +318,3 @@ function esc(value) {
     loadResults();
   }
 })();
-document.getElementById("loginMsg").addEventListener("click", login);
