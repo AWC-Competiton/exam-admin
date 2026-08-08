@@ -24,25 +24,15 @@
 
 <!-- LOGIN -->
 <section id="login" class="card">
-
   <h2>Admin Login</h2>
 
-  <input
-    id="email"
-    type="email"
-    placeholder="Admin Email"
-  >
+  <input id="email" type="email" placeholder="Admin Email">
+  <input id="password" type="password" placeholder="Password">
 
-  <input
-    id="password"
-    type="password"
-    placeholder="Password"
-  >
-
-  <button type="button" id="loginMsg">Login</button>
+  <!-- Fixed onclick and unique id -->
+  <button type="button" id="loginBtn" onclick="login()">Login</button>
 
   <p id="loginMsg" class="error"></p>
-
 </section>
 
 
