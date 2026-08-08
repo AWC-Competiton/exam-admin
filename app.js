@@ -1,0 +1,14 @@
+let allRows=[];
+async function login(){const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;const msg=document.getElementById("loginMsg");const {error}=await supabaseClient.auth.signInWithPassword({email,password});if(error){msg.textContent="Login មិនជោគជ័យ: "+error.message;return}showDash();loadResults()}
+async function logout(){await supabaseClient.auth.signOut();location.reload()}
+function showDash(){document.getElementById("login").classList.add("hidden");document.getElementById("dash").classList.remove("hidden")}
+async function loadResults(){const {data,error}=await supabaseClient.from("exam_submissions").select("*").order("submitted_at",{ascending:false});if(error){alert("មិនអាចទាញទិន្នន័យ: "+error.message);return}allRows=data||[];renderRows(allRows);stats(allRows)}
+function stats(rows){document.getElementById("total").textContent=rows.length;let avg=rows.length?rows.reduce((s,r)=>s+Number(r.score||0),0)/rows.length:0;document.getElementById("avg").textContent=avg.toFixed(2);document.getElementById("top").textContent=rows.length?Math.max(...rows.map(r=>Number(r.score||0))):0}
+function renderRows(rows){document.getElementById("rows").innerHTML=rows.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.seat_number)}</td><td>${esc(r.student_name)}</td><td>${esc(r.gender)}</td><td>${esc(r.school_name)}</td><td>${r.score}/${r.total_questions}</td><td>${new Date(r.submitted_at).toLocaleString()}</td></tr>`).join("")}
+function filterRows(){const q=document.getElementById("search").value.toLowerCase();renderRows(allRows.filter(r=>[r.seat_number,r.student_name,r.school_name,r.gender].some(v=>String(v||"").toLowerCase().includes(q))))}
+function exportRows(){return allRows.map((r,i)=>({"#":i+1,"លេខតុ":r.seat_number,"ឈ្មោះ":r.student_name,"ភេទ":r.gender,"សាលា":r.school_name,"ពិន្ទុ":r.score,"សំណួរសរុប":r.total_questions,"Submit Time":new Date(r.submitted_at).toLocaleString()}))}
+function exportCSV(){const rows=exportRows();if(!rows.length){alert("គ្មានទិន្នន័យ");return}const keys=Object.keys(rows[0]);const csv="\ufeff"+[keys,...rows.map(r=>keys.map(k=>`"${String(r[k]??"").replaceAll('"','""')}"`))].map(a=>a.join(",")).join("\n");download(new Blob([csv],{type:"text/csv;charset=utf-8"}),"exam-results.csv")}
+function exportExcel(){const rows=exportRows();if(!rows.length){alert("គ្មានទិន្នន័យ");return}const ws=XLSX.utils.json_to_sheet(rows);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Results");XLSX.writeFile(wb,"exam-results.xlsx")}
+function download(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+(async()=>{const {data:{session}}=await supabaseClient.auth.getSession();if(session){showDash();loadResults()}})();

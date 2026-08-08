@@ -1,0 +1,7 @@
+<!doctype html><html lang="km"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Exam Dashboard</title><link rel="stylesheet" href="style.css"></head>
+<body><main class="wrap"><header><h1>Admin Dashboard</h1><p>លទ្ធផលសិស្សប្រឡង</p></header>
+<section id="login" class="card"><h2>Admin Login</h2><input id="email" type="email" placeholder="Admin Email"><input id="password" type="password" placeholder="Password"><button onclick="login()">Login</button><p id="loginMsg" class="error"></p></section>
+<section id="dash" class="hidden"><div class="stats card"><div><b id="total">0</b><span>សិស្សសរុប</span></div><div><b id="avg">0</b><span>ពិន្ទុមធ្យម</span></div><div><b id="top">0</b><span>ពិន្ទុខ្ពស់បំផុត</span></div><button onclick="logout()">Logout</button></div>
+<section class="card"><div class="tools"><input id="search" placeholder="ស្វែងរក ឈ្មោះ / លេខតុ / សាលា" oninput="filterRows()"><button onclick="loadResults()">Refresh</button><button onclick="exportCSV()">Export CSV</button><button onclick="exportExcel()">Export Excel</button></div>
+<div class="tablewrap"><table><thead><tr><th>#</th><th>លេខតុ</th><th>ឈ្មោះ</th><th>ភេទ</th><th>សាលា</th><th>ពិន្ទុ</th><th>ពេល Submit</th></tr></thead><tbody id="rows"></tbody></table></div></section></section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script><script src="config.js"></script><script src="app.js"></script></body></html>
