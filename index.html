@@ -1,7 +1,61 @@
-<!doctype html><html lang="km"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Exam Dashboard</title><link rel="stylesheet" href="style.css"></head>
-<body><main class="wrap"><header><h1>Admin Dashboard</h1><p>លទ្ធផលសិស្សប្រឡង</p></header>
-<section id="login" class="card"><h2>Admin Login</h2><input id="email" type="email" placeholder="Admin Email"><input id="password" type="password" placeholder="Password"><button onclick="login()">Login</button><p id="loginMsg" class="error"></p></section>
-<section id="dash" class="hidden"><div class="stats card"><div><b id="total">0</b><span>សិស្សសរុប</span></div><div><b id="avg">0</b><span>ពិន្ទុមធ្យម</span></div><div><b id="top">0</b><span>ពិន្ទុខ្ពស់បំផុត</span></div><button onclick="logout()">Logout</button></div>
-<section class="card"><div class="tools"><input id="search" placeholder="ស្វែងរក ឈ្មោះ / លេខតុ / សាលា" oninput="filterRows()"><button onclick="loadResults()">Refresh</button><button onclick="exportCSV()">Export CSV</button><button onclick="exportExcel()">Export Excel</button></div>
-<div class="tablewrap"><table><thead><tr><th>#</th><th>លេខតុ</th><th>ឈ្មោះ</th><th>ភេទ</th><th>សាលា</th><th>ពិន្ទុ</th><th>ពេល Submit</th></tr></thead><tbody id="rows"></tbody></table></div></section></section></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script><script src="config.js"></script><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="km">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>ប្រព័ន្ធប្រឡងសិស្ស</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+    <main class="wrap">
+    <header class="hero">
+        <h1>ប្រព័ន្ធប្រឡង</h1>
+        <p>ប្រឡង ៥០ សំណួរ • រយៈពេល ១ ម៉ោង</p>
+    </header>
+    <section id="info" class="card">
+        <h2>ព័ត៌មានសិស្ស</h2>
+        <div class="grid">
+            <label>លេខតុ<input id="seat" required></label>
+            <label>ឈ្មោះ<input id="name" required></label>
+            <label>ភេទ<select id="gender">
+                    <option value="">ជ្រើសរើស</option>
+                    <option>ប្រុស</option>
+                    <option>ស្រី</option>
+                </select>
+            </label>
+            <label>ឈ្មោះសាលា<input id="school" required></label>
+            <div class="form-group">
+                <label for="gradeLevel">កម្រិតថ្នាក់</label>   
+                <select id="gradeLevel" required>
+                    <option value="">-- ជ្រើសរើសកម្រិតថ្នាក់ --</option>
+                    <option value="7-8">ថ្នាក់ទី 7 និង 8</option>
+                    <option value="9-10">ថ្នាក់ទី 9 និង 10</option>
+                    <option value="11-12">ថ្នាក់ទី 11 និង 12</option>
+                </select>
+            </div>
+        </div>
+        <div class="notice">⚠️ លេខតុមួយអាច Submit បានតែ ១ ដងប៉ុណ្ណោះ។ សូមពិនិត្យព័ត៌មានមុនចាប់ផ្តើម។</div>
+        <button class="primary" onclick="startExam()">ចាប់ផ្តើមប្រឡង</button>
+        <p id="infoMsg" class="error"></p>
+    </section>
+    <section id="exam" class="card hidden">
+        <div class="sticky">
+            <div>
+                <b>សំណួរ ៥០</b>
+                <span id="progress"></span>
+            </div>
+            <div id="timer">60:00</div>
+        </div>
+        <form id="questions"></form>
+        <button class="primary" type="button" onclick="submitExam(false)">Submit ប្រឡង</button>
+    </section>
+    <section id="done" class="card hidden center">
+        <h2>✅ Submit ជោគជ័យ</h2>
+        <p id="doneText"></p>
+    </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
