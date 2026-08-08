@@ -1,4 +1,4 @@
-```javascript
+javascript
 let allRows = [];
 
 // ===============================
@@ -319,4 +319,3 @@ function esc(value) {
     loadResults();
   }
 })();
-```
