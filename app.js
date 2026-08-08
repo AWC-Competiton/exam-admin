@@ -319,3 +319,4 @@ function esc(value) {
     loadResults();
   }
 })();
+document.getElementById("loginMsg").addEventListener("click", login);
